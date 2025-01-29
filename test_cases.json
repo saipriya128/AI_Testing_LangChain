@@ -1,0 +1,106 @@
+[
+  {
+    "id": "test_case_1",
+    "input_data": {
+      "name": "John Doe",
+      "age": 30,
+      "email": "john@example.com",
+      "is_active": true,
+      "hobbies": ["reading", "gaming"],
+      "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "zip": "10001"
+      }
+    },
+    "expected_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "age": { "type": "integer" },
+        "email": { "type": "string" },
+        "is_active": { "type": "boolean" },
+        "hobbies": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": { "type": "string" },
+            "city": { "type": "string" },
+            "zip": { "type": "string" }
+          },
+          "required": ["street", "city", "zip"]
+        }
+      },
+      "required": ["name", "age", "email", "is_active", "hobbies", "address"]
+    }
+  },
+  {
+    "id": "test_case_2",
+    "input_data": {
+      "products": [
+        {
+          "id": 1,
+          "name": "Laptop",
+          "price": 999.99,
+          "in_stock": true
+        },
+        {
+          "id": 2,
+          "name": "Mouse",
+          "price": 29.99,
+          "in_stock": false
+        }
+      ]
+    },
+    "expected_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" },
+              "price": { "type": "number" },
+              "in_stock": { "type": "boolean" }
+            },
+            "required": ["id", "name", "price", "in_stock"]
+          }
+        }
+      },
+      "required": ["products"]
+    }
+  },
+  {
+    "id": "test_case_3_should_fail",
+    "input_data": {
+      "mixed_array": [1, "string", true, 3.14],
+      "optional_field": "this should not be required"
+    },
+    "expected_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "mixed_array": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "integer" },
+              { "type": "string" },
+              { "type": "boolean" },
+              { "type": "number" }
+            ]
+          }
+        },
+        "optional_field": { "type": "string" }
+      },
+      "required": ["mixed_array"]
+    }
+  }
+] 
